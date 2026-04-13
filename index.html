@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四川链踪科技有限公司 - 区块链技术解决方案</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-black: #050508;
+            --bg-dark: #0a0a0f;
+            --accent-cyan: #00f0ff;
+            --accent-magenta: #ff00ff;
+            --accent-yellow: #ffd700;
+            --text-white: #ffffff;
+            --text-gray: #a0a0b0;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-black);
+            color: var(--text-white);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 240, 255, 0.03) 2px,
+                rgba(0, 240, 255, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 5, 8, 0.9);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-menu a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: width 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 100px 60px;
+        }
+
+        .grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+            background-size: 80px 80px;
+            transform: perspective(500px) rotateX(60deg);
+            transform-origin: center top;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 80px; }
+        }
+
+        .ring-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .ring {
+            position: absolute;
+            border: 2px solid;
+            border-radius: 50%;
+            animation: rotateRing 10s linear infinite;
+        }
+
+        .ring:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            border-color: rgba(0, 240, 255, 0.5);
+            top: -150px;
+            left: -150px;
+        }
+
+        .ring:nth-child(2) {
+            width: 500px;
+            height: 500px;
+            border-color: rgba(255, 0, 255, 0.3);
+            top: -250px;
+            left: -250px;
+            animation-direction: reverse;
+            animation-duration: 15s;
+        }
+
+        .ring:nth-child(3) {
+            width: 700px;
+            height: 700px;
+            border-color: rgba(255, 215, 0, 0.2);
+            top: -350px;
+            left: -350px;
+            animation-duration: 20s;
+        }
+
+        @keyframes rotateRing {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hex-grid {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            opacity: 0.1;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300f0ff' fill-opacity='0.4'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { box-shadow: 0 0 5px var(--accent-cyan); }
+            50% { box-shadow: 0 0 20px var(--accent-cyan), 0 0 40px var(--accent-cyan); }
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 .line1 {
+            display: block;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero h1 .line2 {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            letter-spacing: 15px;
+            margin-top: 15px;
+        }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 30px auto;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn-cyber {
+            padding: 15px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .btn-primary-cyber {
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            color: var(--bg-black);
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .btn-primary-cyber:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+        }
+
+        .btn-secondary-cyber {
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 2px solid var(--accent-cyan);
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .btn-secondary-cyber:hover {
+            background: rgba(0, 240, 255, 0.1);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--accent-cyan), transparent);
+            animation: scrollDown 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scrollDown {
+            0%, 100% { opacity: 0; transform: scaleY(0); }
+            50% { opacity: 1; transform: scaleY(1); }
+        }
+
+        .blocks-section {
+            padding: 120px 60px;
+            position: relative;
+        }
+
+        .section-header-cyber {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--accent-magenta);
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+        }
+
+        .section-title-cyber {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .section-title-cyber span {
+            color: var(--accent-cyan);
+        }
+
+        .blocks-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .block-card {
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .block-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .block-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-cyan), var(--accent-magenta));
+            transform: scaleY(0);
+            transition: transform 0.4s;
+        }
+
+        .block-card:hover::before,
+        .block-card:hover::after {
+            transform: scale(1);
+        }
+
+        .block-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 240, 255, 0.2);
+            border-color: var(--accent-cyan);
+        }
+
+        .block-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(255, 0, 255, 0.1));
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+        }
+
+        .block-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .block-card p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .data-section {
+            padding: 100px 60px;
+            background: linear-gradient(180deg, transparent, rgba(0, 240, 255, 0.02), transparent);
+            position: relative;
+        }
+
+        .data-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .data-visual {
+            position: relative;
+            height: 400px;
+        }
+
+        .node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: var(--bg-dark);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            animation: nodePulse 3s ease-in-out infinite;
+        }
+
+        .node:nth-child(1) { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .node:nth-child(2) { top: 10%; left: 30%; animation-delay: 0.5s; }
+        .node:nth-child(3) { top: 10%; right: 30%; animation-delay: 1s; border-color: var(--accent-magenta); }
+        .node:nth-child(4) { bottom: 10%; left: 30%; animation-delay: 1.5s; border-color: var(--accent-yellow); }
+        .node:nth-child(5) { bottom: 10%; right: 30%; animation-delay: 2s; border-color: var(--accent-cyan); }
+
+        @keyframes nodePulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 240, 255, 0.6); }
+        }
+
+        .data-info h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+
+        .data-info h2 span {
+            color: var(--accent-cyan);
+        }
+
+        .data-info > p {
+            color: var(--text-gray);
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 35px;
+        }
+
+        .data-features {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .data-feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .data-feature-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .data-feature span {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        .stats-cyber {
+            padding: 80px 60px;
+            background: var(--bg-dark);
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .stats-grid-cyber {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stat-cyber {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            position: relative;
+        }
+
+        .stat-cyber::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+
+        .stat-unit {
+            font-size: 1.5rem;
+        }
+
+        .stat-label-cyber {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            letter-spacing: 2px;
+        }
+
+        .products-cyber {
+            padding: 120px 60px;
+        }
+
+        .products-grid-cyber {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .product-cyber {
+            background: var(--bg-dark);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .product-cyber:hover {
+            border-color: var(--accent-magenta);
+            transform: translateY(-5px);
+        }
+
+        .product-img-cyber {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img-cyber::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, var(--bg-dark));
+        }
+
+        .product-img-cyber img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(50%) brightness(0.8);
+            transition: all 0.4s;
+        }
+
+        .product-cyber:hover .product-img-cyber img {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.1);
+        }
+
+        .product-info-cyber {
+            padding: 25px;
+        }
+
+        .product-info-cyber h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .product-info-cyber p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            padding: 60px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .footer-text {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            .blocks-grid, .products-grid-cyber {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .data-showcase {
+                grid-template-columns: 1fr;
+            }
+            .data-visual {
+                order: -1;
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 25px;
+            }
+            .nav-menu {
+                display: none;
+            }
+            .hero {
+                padding: 100px 25px 60px;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero h1 .line2 {
+                font-size: 1rem;
+                letter-spacing: 5px;
+            }
+            .blocks-section, .products-cyber {
+                padding: 60px 25px;
+            }
+            .blocks-grid, .products-grid-cyber, .stats-grid-cyber {
+                grid-template-columns: 1fr;
+            }
+            .section-title-cyber {
+                font-size: 1.8rem;
+            }
+            .data-info h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-logo">LINKTRACE</div>
+        <div class="nav-menu">
+            <a href="#services">服务</a>
+            <a href="#solutions">方案</a>
+            <a href="#products">产品</a>
+            <a href="#about">关于</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="grid-bg"></div>
+        <div class="hex-grid"></div>
+        <div class="ring-container">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">BLOCKCHAIN TECHNOLOGY</div>
+            <h1>
+                <span class="line1">四川链踪科技有限公司</span>
+                <span class="line2">LINKTRACE TECH</span>
+            </h1>
+            <p class="hero-desc">专注于区块链技术研发与供应链追踪解决方案，运用分布式账本技术，为企业构建安全、透明、高效的数字化追踪体系。</p>
+            
+            <div class="hero-buttons">
+                <button class="btn-cyber btn-primary-cyber">探索方案</button>
+                <button class="btn-cyber btn-secondary-cyber">联系我们</button>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>SCROLL</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <section class="blocks-section" id="services">
+        <div class="section-header-cyber">
+            <p class="section-tag">WHAT WE DO</p>
+            <h2 class="section-title-cyber">核心<span>技术</span>领域</h2>
+        </div>
+        
+        <div class="blocks-grid">
+            <div class="block-card">
+                <div class="block-icon">⛓️</div>
+                <h3>区块链底层开发</h3>
+                <p>基于主流联盟链框架，提供智能合约开发、链码编写、节点部署等底层技术支撑。</p>
+            </div>
+            
+            <div class="block-card">
+                <div class="block-icon">🔍</div>
+                <h3>供应链追踪系统</h3>
+                <p>全流程商品溯源解决方案，实现从原材料到终端消费者的全程信息追踪与可视化。</p>
+            </div>
+            
+            <div class="block-card">
+                <div class="block-icon">🛡️</div>
+                <h3>数据安全存储</h3>
+                <p>分布式数据存储与加密技术，确保数据不可篡改、全程可追溯、安全可靠。</p>
+            </div>
+            
+            <div class="block-card">
+                <div class="block-icon">📱</div>
+                <h3>智能终端集成</h3>
+                <p>RFID、NFC、物联网传感器等智能硬件与区块链系统的无缝集成方案。</p>
+            </div>
+            
+            <div class="block-card">
+                <div class="block-icon">📊</div>
+                <h3>数据分析服务</h3>
+                <p>链上数据分析与可视化报表，实时监控供应链状态，智能预警异常情况。</p>
+            </div>
+            
+            <div class="block-card">
+                <div class="block-icon">🤝</div>
+                <h3>行业解决方案</h3>
+                <p>针对食品、医药、奢侈品、电商等行业的专属区块链追踪解决方案。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="data-section" id="solutions">
+        <div class="data-showcase">
+            <div class="data-visual">
+                <div class="node">🔗</div>
+                <div class="node">📦</div>
+                <div class="node">🏭</div>
+                <div class="node">🚚</div>
+                <div class="node">🏪</div>
+            </div>
+            
+            <div class="data-info">
+                <h2>构建<span>可信</span>数据链路</h2>
+                <p>我们运用区块链技术，为企业打造端到端的供应链追踪体系。每一件商品从生产、加工、物流到销售的全生命周期数据都被安全记录在链上，不可篡改，全程可溯。</p>
+                
+                <div class="data-features">
+                    <div class="data-feature">
+                        <div class="data-feature-icon">✓</div>
+                        <span>全程追溯 - 从源头到终端的完整数据链</span>
+                    </div>
+                    <div class="data-feature">
+                        <div class="data-feature-icon">✓</div>
+                        <span>防伪验证 - 一物一码，数据不可篡改</span>
+                    </div>
+                    <div class="data-feature">
+                        <div class="data-feature-icon">✓</div>
+                        <span>智能合约 - 自动执行，提升协作效率</span>
+                    </div>
+                    <div class="data-feature">
+                        <div class="data-feature-icon">✓</div>
+                        <span>实时监控 - 全流程可视化与异常预警</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-cyber">
+        <div class="stats-grid-cyber">
+            <div class="stat-cyber">
+                <div class="stat-number">200<span class="stat-unit">+</span></div>
+                <div class="stat-label-cyber">完成项目</div>
+            </div>
+            <div class="stat-cyber">
+                <div class="stat-number">50<span class="stat-unit">+</span></div>
+                <div class="stat-label-cyber">企业客户</div>
+            </div>
+            <div class="stat-cyber">
+                <div class="stat-number">30<span class="stat-unit">+</span></div>
+                <div class="stat-label-cyber">技术专利</div>
+            </div>
+            <div class="stat-cyber">
+                <div class="stat-number">10<span class="stat-unit">+</span></div>
+                <div class="stat-label-cyber">行业覆盖</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-cyber" id="products">
+        <div class="section-header-cyber">
+            <p class="section-tag">OUR PRODUCTS</p>
+            <h2 class="section-title-cyber">核心<span>产品</span>体系</h2>
+        </div>
+        
+        <div class="products-grid-cyber">
+            <div class="product-cyber">
+                <div class="product-img-cyber">
+                    <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=500" alt="区块链平台">
+                </div>
+                <div class="product-info-cyber">
+                    <h3>链踪BaaS平台</h3>
+                    <p>一站式区块链即服务，快速部署联盟链</p>
+                </div>
+            </div>
+            
+            <div class="product-cyber">
+                <div class="product-img-cyber">
+                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500" alt="溯源系统">
+                </div>
+                <div class="product-info-cyber">
+                    <h3>商品溯源系统</h3>
+                    <p>全流程商品追踪，扫码即可验证真伪</p>
+                </div>
+            </div>
+            
+            <div class="product-cyber">
+                <div class="product-img-cyber">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500" alt="数据大屏">
+                </div>
+                <div class="product-info-cyber">
+                    <h3>数据监控大屏</h3>
+                    <p>实时数据可视化，全链路监控追踪</p>
+                </div>
+            </div>
+            
+            <div class="product-cyber">
+                <div class="product-img-cyber">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500" alt="硬件设备">
+                </div>
+                <div class="product-info-cyber">
+                    <h3>智能采集终端</h3>
+                    <p>物联网硬件集成，数据自动上链</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="about">
+        <div class="footer-logo">LINKTRACE TECH</div>
+        <p class="footer-text">四川链踪科技有限公司 | 区块链技术解决方案专家</p>
+        <p class="footer-text" style="margin-top: 10px;">© 2026 版权所有</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.block-card, .product-cyber').forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(40px)';
+            el.style.transition = 'all 0.6s ease-out';
+            el.style.transitionDelay = `${index * 0.1}s`;
+            observer.observe(el);
+        });
+
+        document.querySelectorAll('.stat-number').forEach(stat => {
+            const target = parseInt(stat.textContent);
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    stat.innerHTML = target + '<span class="stat-unit">+</span>';
+                    clearInterval(timer);
+                } else {
+                    stat.innerHTML = Math.floor(current) + '<span class="stat-unit">+</span>';
+                }
+            }, 30);
+        });
+    </script>
+</body>
+</html>
